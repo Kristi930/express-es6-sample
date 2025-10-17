@@ -1,18 +1,16 @@
 version: 0.2
-
 phases:
   install:
+    runtime-versions:
+      nodejs: 18
     commands:
-      - echo "Installing deps…"
+      - echo Installing dependencies...
       - npm ci
   build:
     commands:
-      - echo "Building…"
-      - npm run build || echo "No build script, continuing"
-  post_build:
-    commands:
-      - echo "Build completed."
-
+      - echo Building app...
+      - npm run build || echo "No build script"
 artifacts:
   files:
     - '**/*'
+
