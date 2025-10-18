@@ -2,15 +2,15 @@
   "version": "2.5.0",
   "summary": {
     "title": "WebApp Threat Model",
-    "owner": "",
-    "description": "",
+    "owner": "Kristi Dahal (Student ID: 21932252)",
+    "description": "A three-tier web application for managing users and records. End-users access the User Interface (Browser) over HTTPS, which sends requests to the Web Application (API server). The API performs authentication/authorization, input validation, and business logic, and then queries the Database over a private network. Primary assets include user identities, session tokens, and PII stored at rest. Trust boundaries exist between Browser↔API (internet) and API↔DB (internal network). The model assumes TLS is enforced, secrets are stored in a vault, and least-privilege roles are applied. Out of scope: third-party identity providers’ internal risks.",
     "id": 0
   },
   "detail": {
     "contributors": [],
     "diagrams": [],
     "diagramTop": 0,
-    "reviewer": "",
+    "reviewer": "Teacher",
     "threatTop": 0
   }
 }
