@@ -31,13 +31,14 @@
                 "text": "User Interface(UI)"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
             "visible": true,
             "shape": "actor",
+            "zIndex": 1,
             "ports": {
               "groups": {
                 "top": {
@@ -121,7 +122,6 @@
               ]
             },
             "id": "bdd129c1-a5a7-40d8-a7ac-94c83582f33c",
-            "zIndex": 1,
             "data": {
               "type": "tm.Actor",
               "name": "User Interface(UI)",
@@ -129,9 +129,40 @@
               "isTrustBoundary": false,
               "outOfScope": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "providesAuthentication": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "247455aa-b8e4-428f-be50-af08e0875757",
+                  "title": "UI Credential Stuffing",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Attacker reuses leaked credentials to impersonate a user.\n",
+                  "mitigation": "Enforce MFA; rate-limit login; use reCAPTCHA/Turnstile; breached-password checks; lockouts with back-off.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "40bcc8ce-5c38-44b2-8c8a-061fffa2f45c",
+                  "title": "Denied Actions Without Audit",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Users can deny risky actions if no immutable log exists.",
+                  "mitigation": "Append-only audit logs with user ID, IP, UA, request ID; signed/time-stamped; CloudWatch retention.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "repudiation": 1
+              }
             }
           },
           {
@@ -148,13 +179,14 @@
                 "text": "Web \nApplication\n(Server/API)"
               },
               "body": {
-                "stroke": "#333333",
-                "strokeWidth": 1.5,
+                "stroke": "red",
+                "strokeWidth": 2.5,
                 "strokeDasharray": null
               }
             },
             "visible": true,
             "shape": "process",
+            "zIndex": 2,
             "ports": {
               "groups": {
                 "top": {
@@ -238,7 +270,6 @@
               ]
             },
             "id": "837060ce-81dc-42a6-ab75-5f16a6532bc0",
-            "zIndex": 2,
             "data": {
               "type": "tm.Process",
               "name": "Web \nApplication\n(Server/API)",
@@ -246,12 +277,112 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": []
+              "threats": [
+                {
+                  "id": "6aba64c2-cb2c-48c9-954b-148e0251bef9",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Spoofing",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 4,
+                  "score": ""
+                },
+                {
+                  "id": "969d8666-1d33-4aae-8932-6013d1398889",
+                  "title": "Stolen/Forgered Session Token",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Attacker uses a valid JWT/cookie to impersonate.",
+                  "mitigation": "Rotate/short-TTL tokens; bind to device/IP risk signals; revoke on logout; HttpOnly+Secure cookies; token audience/issuer checks.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 6,
+                  "score": ""
+                },
+                {
+                  "id": "45428b3b-dd5b-4964-9bb1-2a7dbc60ea2d",
+                  "title": "SQL Injection on API Parameters",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Unsanitized inputs reaching DB queries.",
+                  "mitigation": "Parameterized queries/ORM; centralized validation; WAF SQLi rules; least-priv DB role.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 7,
+                  "score": ""
+                },
+                {
+                  "id": "6a3bc048-a2f7-41c0-8b32-bcc6435c8e52",
+                  "title": "Missing Request Correlation",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Inability to tie a change to a user/time/request across services.",
+                  "mitigation": "Correlation IDs; structured JSON logs; CloudWatch + retention + immutable sink (S3 w/ object lock).\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                },
+                {
+                  "id": "408dce47-ec9d-4dd0-8742-eb4ed255c528",
+                  "title": "Sensitive Data in Logs",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "API logs may include secrets, tokens, PII.",
+                  "mitigation": "Log scrubbing; blocklists for secrets; privacy review; least-priv log access.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                },
+                {
+                  "id": "b4b4ad4e-4f48-4e6d-8db7-afe192da4fde",
+                  "title": "App-Level DoS (Expensive Queries)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of service",
+                  "description": "Crafted inputs trigger heavy DB/CPU work.",
+                  "mitigation": "Per-endpoint quotas; circuit breakers; pagination; query timeouts.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                },
+                {
+                  "id": "6e7b3323-374a-4ee3-94f3-08d55fc5807f",
+                  "title": "Insecure Deserialization / RCE",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of privilege",
+                  "description": "Unsafe JSON/XML/object parsing leading to code execution.",
+                  "mitigation": "Strict content-types; safe parsers; disable polymorphic types; dependency scanning (Trivy/Clair).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 1
+              }
             },
             "children": [
               "76cf5947-2c14-4822-92b5-3d8cb9ce4c65"
@@ -281,6 +412,7 @@
             },
             "visible": true,
             "shape": "store",
+            "zIndex": 3,
             "ports": {
               "groups": {
                 "top": {
@@ -364,7 +496,6 @@
               ]
             },
             "id": "6d8295ae-ca92-41ee-b694-28e33dbf7c39",
-            "zIndex": 3,
             "data": {
               "type": "tm.Store",
               "name": "Database(DB)",
@@ -372,13 +503,72 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
               "storesCredentials": false,
               "storesInventory": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "9b6bc46c-f394-49ab-9d1b-e6d0c7450027",
+                  "title": "New STRIDE threat",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Tampering",
+                  "description": "Provide a description for this threat",
+                  "mitigation": "Provide remediation for this threat or a reason if status is N/A",
+                  "modelType": "STRIDE",
+                  "new": true,
+                  "number": 12,
+                  "score": ""
+                },
+                {
+                  "id": "9254ef5a-297c-4fdd-8198-346f3a0a4fc2",
+                  "title": "Data Tampering at Rest",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Unauthenticated writes or unapproved schema changes.",
+                  "mitigation": "AES-256 encryption at rest; change control; migrations; row-level security; least-privilege.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": ""
+                },
+                {
+                  "id": "253c7680-1af0-494d-8056-bfceac176072",
+                  "title": "Privilege Creep in DB Accounts",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Elevation of privilege",
+                  "description": "Roles gain extra grants over time.",
+                  "mitigation": "Role reviews; least privilege; automated drift detection; break-glass account with MFA.\n",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
+                  "score": ""
+                },
+                {
+                  "id": "3387474c-c353-4515-9288-9120536a0594",
+                  "title": "Resource Exhaustion (Locks/Connections)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of service",
+                  "description": "Exhaust connection pool / long-running transactions.",
+                  "mitigation": "Connection pooling; max query time; kill long transactions; read replicas; autoscaling.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 15,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 1,
+                "repudiation": 0,
+                "informationDisclosure": 0,
+                "denialOfService": 1
+              }
             }
           },
           {
@@ -467,58 +657,8 @@
             "labels": [
               "Data Flow"
             ],
-            "id": "ec300eef-c799-4293-81de-855447affa18",
-            "source": {
-              "x": 153,
-              "y": -359
-            },
-            "target": {
-              "x": 280,
-              "y": -370
-            },
-            "vertices": [
-              {
-                "x": 260,
-                "y": -370
-              }
-            ]
-          },
-          {
-            "shape": "flow",
-            "attrs": {
-              "line": {
-                "stroke": "#333333",
-                "targetMarker": {
-                  "name": "block"
-                },
-                "sourceMarker": {
-                  "name": ""
-                },
-                "strokeDasharray": null
-              }
-            },
-            "width": 200,
-            "height": 100,
-            "zIndex": 10,
-            "connector": "smooth",
-            "data": {
-              "type": "tm.Flow",
-              "name": "Data Flow",
-              "description": "",
-              "outOfScope": false,
-              "isTrustBoundary": false,
-              "reasonOutOfScope": "",
-              "hasOpenThreats": false,
-              "isBidirectional": false,
-              "isEncrypted": false,
-              "isPublicNetwork": false,
-              "protocol": "",
-              "threats": []
-            },
-            "labels": [
-              "Data Flow"
-            ],
             "id": "76cf5947-2c14-4822-92b5-3d8cb9ce4c65",
+            "parent": "837060ce-81dc-42a6-ab75-5f16a6532bc0",
             "source": {
               "cell": "837060ce-81dc-42a6-ab75-5f16a6532bc0",
               "port": "1d4710ec-29f3-4916-b6bd-1102b8b705ee"
@@ -527,8 +667,7 @@
               "cell": "837060ce-81dc-42a6-ab75-5f16a6532bc0",
               "port": "1d4710ec-29f3-4916-b6bd-1102b8b705ee"
             },
-            "vertices": [],
-            "parent": "837060ce-81dc-42a6-ab75-5f16a6532bc0"
+            "vertices": []
           },
           {
             "shape": "flow",
@@ -580,6 +719,57 @@
                 "y": -390
               }
             ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Data Flow",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": []
+            },
+            "labels": [
+              "Data Flow"
+            ],
+            "id": "ec300eef-c799-4293-81de-855447affa18",
+            "source": {
+              "x": 153,
+              "y": -359
+            },
+            "target": {
+              "x": 280,
+              "y": -370
+            },
+            "vertices": [
+              {
+                "x": 260,
+                "y": -370
+              }
+            ]
           }
         ]
       },
@@ -595,6 +785,6 @@
     ],
     "diagramTop": 4,
     "reviewer": "Teacher",
-    "threatTop": 0
+    "threatTop": 17
   }
 }
