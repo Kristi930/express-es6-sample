@@ -940,6 +940,13 @@
                 "spoofing": 1,
                 "repudiation": 1
               }
+            },
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove"
+              ],
+              "name": null
             }
           },
           {
